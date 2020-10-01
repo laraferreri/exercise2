@@ -1,0 +1,18 @@
+.Header{
+  align-items: center;
+  display: flex;
+  justify-content: space space-between;
+  margin: 0 auto;
+  max-width: 100px;
+}
+
+.Header nav a {
+  color: black;
+  font-weight: bold;
+  margin: 0 10px;
+  text-decoration: none;
+}
+
+.Header nav a:hoverw{
+  color: magenta;
+}
