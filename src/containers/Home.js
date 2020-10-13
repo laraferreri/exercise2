@@ -15,16 +15,17 @@ function Home() {
      useEffect(() => {
         axios
              .get(
-                 `api.openweathermap.org/data/2.5/weather?q=${city}&units=imperial=${weatherKey}`
+                 `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=imperial&appid=${weatherKey}`
                 )
     .then(function (response) {
         const weather= response.data;
+        console.log(response.data)
         setWeatherData(weather);
     })
     .catch(function (error) {
       console.log(error);
     }); 
-    }, []);
+    }, [city]);
 
     useEffect (() => {
         const searchParams = history.location.search;
@@ -61,7 +62,7 @@ function Home() {
         highTemp= `${Math.round(weatherData.main.temp_max)}°`;
         lowTemp= `${Math.round(weatherData.main.temp_min)}°`;
         weatherType= `${weatherData.weather[0].description}`;
-        windSpeed= `${weatherData.main.wind.speed} m/h`;
+        windSpeed= `${weatherData.wind.speed}m/h`;
         humidity= `${weatherData.main.humidity}%`;
     }
 
