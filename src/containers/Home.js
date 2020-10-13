@@ -3,9 +3,9 @@ import axios from "axios";
 import { useHistory } from "react-router-dom";
 
 import Header from "../components/Header";
-import WeatherImage from "../components/WeatherImage"
+import WeatherImage from "../components/WeatherImage";
 
-const weatherKey = "e5b2a6cebce49a66e025c491648d01f2"
+const weatherKey = "e5b2a6cebce49a66e025c491648d01f2";
 
 function Home() {
      const history = useHistory();console.log("history", history)
@@ -15,7 +15,7 @@ function Home() {
      useEffect(() => {
         axios
              .get(
-                 `api.openweathermap.org/data/2.5/weather?q=${"Seoul"}&appid=${weatherKey}`
+                 `api.openweathermap.org/data/2.5/weather?q=${city}&units=imperial=${weatherKey}`
                 )
     .then(function (response) {
         const weather= response.data;
@@ -42,9 +42,11 @@ function Home() {
      lowTemp,
      cloudiness,
      humidity,
-     windSpeed
+     windSpeed,
+     cloudinessValue
 }= useMemo(() => {
     let cloudiness = '';
+    let cloudinessValue = 0;
     let currentTemp = '';
     let highTemp = '';
     let lowTemp = '';
@@ -54,11 +56,12 @@ function Home() {
 
     if(weatherData){
         cloudiness= `${weatherData.clouds.all}%`;
+        cloudinessValue= weatherData.clouds.all;
         currentTemp = `${weatherData.main.temp}`;
-        highTemp= `${weatherData.main.temp_max}%`;
-        lowTemp= `${weatherData.main.temp_min}%`;
-        weatherType= `${weatherData.weather[0].description}%`;
-        windSpeed= `${weatherData.main.wind.speed} km/h`;
+        highTemp= `${Math.round(weatherData.main.temp_max)}°`;
+        lowTemp= `${Math.round(weatherData.main.temp_min)}°`;
+        weatherType= `${weatherData.weather[0].description}`;
+        windSpeed= `${weatherData.main.wind.speed} m/h`;
         humidity= `${weatherData.main.humidity}%`;
     }
 
@@ -70,6 +73,7 @@ function Home() {
         lowTemp,
         weatherType,
         windSpeed,
+        cloudinessValue
     };
 
 }, [weatherData]);
@@ -78,10 +82,12 @@ function Home() {
     return(
         <>
     <Header/>
-        <main className= "Home" >
+        <main className= "Home">
             <h2> Weather in <span>{city}</span></h2>
             <div className= "WeatherInfo">
-                <div className= "WeatherInfo_Basic">
+                <div className= "WeatherInfo_Basic"
+                style={{backgroundColor: `rgba{0,0,0,${cloudinessValue / 200}}`}}
+                >
                     <div className= "WeatherInfo_Image">
                         <WeatherImage weatherType={weatherType} />
                 </div>

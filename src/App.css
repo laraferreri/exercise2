@@ -1,6 +1,7 @@
 .Header{
   align-items: center;
   display: flex;
+  flex-direction: row;
   justify-content: space space-between;
   margin: 0 auto;
   max-width: 1080px;
@@ -38,6 +39,8 @@
 
 .WeatherInfo{
   display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 
 .WeatherInfo_Basic{
@@ -86,4 +89,25 @@
   text-transform: uppercase;
   letter-spacing: 2px;
   margin: 0;
+}
+
+@media screen and (min-width: 640px){
+  .Header{
+  flex-direction: column;
+  }
+
+  .Header nav a{
+    font-size: 14px;
+  }
+
+  .WeatherInfo{
+    flex-direction: column;
+  }
+   
+  .WeatherInfo_Extra{
+    border: 2px solid black;
+    border-top: none;
+  }
+
+
 }
